@@ -176,58 +176,6 @@
             </build>
         </profile>
 
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in GlassFish Embedded -->
-            <!-- Tests are broken under Arquillian 1.0.0.Alpha5 since sun-resources.xml is not supported -->
-            <!-- Run with: mvn clean test -Parq-glassfish-embedded -->
-            <id>arq-glassfish-embedded</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.arquillian.container</groupId>
-                    <artifactId>arquillian-glassfish-embedded-3</artifactId>
-                    <version>${arquillian.version}</version>
-                    <scope>test</scope>
-                </dependency>
-                <!-- This imports the Java EE 6 runtime libraries provided by GlassFish Embedded -->
-                <dependency>
-                    <groupId>org.glassfish.extras</groupId>
-                    <artifactId>glassfish-embedded-all</artifactId>
-                    <version>3.0.1</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <testResources>
-                    <testResource>
-                        <directory>src/test/resources</directory>
-                    </testResource>
-                    <!-- Overrides default configuration to use alternate persistence.xml with eclipselink settings and declare 
-                        a Glassfish Datasource -->
-                    <!-- Used by Arquillian -->
-                    <testResource>
-                        <directory>src/test/resources-glassfish-embedded</directory>
-                    </testResource>
-                </testResources>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <!-- don't use version 2.5 as it creates seperate test suites per class -->
-                        <version>2.4.3</version>
-                        <configuration>
-                            <systemProperties>
-                                <!-- This optional property fixes an annoyance with Glassfish that puts derby.log in the project 
-                                    root -->
-                                <property>
-                                    <name>derby.stream.error.file</name>
-                                    <!-- If you save the log in target it is less likely to get committed in your project -->
-                                    <value>target/derby.log</value>
-                                </property>
-                            </systemProperties>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
 
         <profile>
             <!-- An optional Arquillian testing profile that executes tests in a remote JBoss AS instance -->
