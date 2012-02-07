@@ -21,10 +21,9 @@
  3.0 or better. We strongly recommend, however, that you use Java 6.0 (Java SDK
  1.6).
 
- The application this project produces is designed to be run on a Java EE 6
- application server. We recommend JBoss AS 6.0.0.Final or GlassFish 3.1, though
- it should work on any server that is Java EE 6 compliant. In order to use it
- on GlassFish 3.1, you'll need to update Weld. See instructions below.
+ The application this project produces is dsigned to be run on a Java EE 6
+ application server. We recommend JBoss AS 7.0.2.Final, though
+ it should work on any server that is Java EE 6 compliant. 
  
  NOTE:
  This project retrieves artifacts from the JBoss Community Maven repository, a
@@ -45,7 +44,7 @@
   mvn package
 
  If you want to deploy the application on JBoss AS (standalone), make sure that
- your JBOSS_HOME environment variable points to a JBoss AS 6 installation.
+ your JBOSS_HOME environment variable points to a JBoss AS 7 installation.
 
  Alternatively, you can set the location of JBoss AS using the following
  profile definition in the .m2/settings.xml file in your home directory:
@@ -63,7 +62,7 @@
               <activeByDefault>true</activeByDefault>
            </activation>
            <properties>
-              <jboss.home>/path/to/jboss-as-6.0.0.Final</jboss.home>
+              <jboss.home>/path/to/jboss-as-7.0.2.Final</jboss.home>
            </properties>
         </profile>
      </profiles>
@@ -73,21 +72,13 @@
  Once you've set either the JBOSS_HOME environment variable or the jboss.home
  Maven property, you can deploy to JBoss AS by executing the following command:
 
-      mvn package jboss:hard-deploy
+      mvn package jboss-as:deploy
 
- This will deploy two artifacts, target/seamseven.war and
- default-ds.xml.
+ This will deploy the artifact: target/seamseven.war
  
- IMPORTANT:
- Don't forget to deploy default-ds.xml!
+You can also set jboss.home on the commandline:
 
- NOTE:
- The default-ds.xml file installs a data source named jdbc/__default, so that
- both JBoss AS and GlassFish have a data source with the same name.
-
- You can also set jboss.home on the commandline:
-
-  mvn package jboss:hard-deploy -Djboss.home=/path/to/jboss-as-6.0.0.Final
+  mvn package jboss-as:hard-deploy -Djboss.home=/path/to/jboss-as-7.0.2.Final
 
  In all, you have three options to set the path of your JBoss AS installation:
 
@@ -101,58 +92,9 @@
 
  To undeploy from JBoss AS, run this command:
 
-  mvn jboss:hard-undeploy
+  mvn jboss-as:undeploy
 
- There are several ways to deploy the archive to GlassFish. The recommended
- approach is to open the project in NetBeans 6.8, right-click on the project
- and select "Run" from the context menu. That starts JavaDB, GlassFish and
- deploys the application. NetBeans then provides incremental deployment of web
- resources.
-
- IMPORTANT:
- Don't forget to upgrade Weld. See Upgrading Weld in GlassFish 3.1 for details.
-
- You can also start GlassFish from the commandline. Change to the glassfish/bin
- directory in the GlassFish install root and run these three commands (leading
- ./ not required on Windows):
-
-  ./asadmin start-database
-  ./asadmin start-domain domain1
-
- IMPORTANT:
- Don't forget to start the JavaDB database!
-
- NOTE:
- NetBeans starts the database automatically when it starts up GlassFish. If you
- have the GlassFish Tools Eclipse plug-in, you have to enable this feature.
- Select Window > Preferences > GlassFish Server Preferences and check the
- option "Start JavaDB database process when > Starting GlassFish Server"
-
- Now you can either deploy the target/seamseven.war through the
- web-based GlassFish admininstration console, or you can again use asadmin:
-
-  ./asadmin deploy target/seamseven.war
-
- To undeploy the application, run:
-
-  ./asadmin undeploy seamseven
-
- Upgrading Weld in GlassFish 3.1
- ===============================
-
- There are several known CDI visibility issues in the stock version of Weld
- that ships with GlassFish 3.1. One of these issues affects the sample code in
- this application. For more information, see http://sfwk.org/Seam3/Compatibility.
  
- You can upgrade Weld by following these steps:
-
- 1. Stop GlassFish
- 2. Download the most recent Weld OSGi Bundle 1.1.0-SNAPSHOT (https://repository.jboss.org/nexus/content/repositories/snapshots/org/jboss/weld/weld-osgi-bundle/1.1.0-SNAPSHOT)
- 3. Copy that jar to $GLASSFISH_HOME/glassfish/modules/weld-osgi-bundle.jar
- 4. Start GlassFish
-
- You can now deploy the application successfully to GlassFish 3.1.
-
  Running the Arquillian tests
  ============================
 
