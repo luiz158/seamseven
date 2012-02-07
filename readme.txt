@@ -73,7 +73,7 @@
  Once you've set either the JBOSS_HOME environment variable or the jboss.home
  Maven property, you can deploy to JBoss AS by executing the following command:
 
-  mvn package jboss:hard-deploy
+      mvn package jboss:hard-deploy
 
  This will deploy two artifacts, target/seamseven.war and
  default-ds.xml.

@@ -22,7 +22,7 @@
         <jboss.home>${env.JBOSS_HOME}</jboss.home>
         <jboss.domain>default</jboss.domain>
         <arquillian.version>1.0.0.Alpha5</arquillian.version>
-        <jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
+        <jboss-javaee6-spec.version>2.0.0.Final</jboss-javaee6-spec.version>
     </properties>
 
     <repositories>
@@ -156,20 +156,13 @@
                     </plugin>
                     <!-- Optional plugin deploys your war to a local JBoss AS container -->
                     <!-- To use, set the JBOSS_HOME environment variable (or jboss.home in $HOME/.m2/settings.xml) and run:
-                         mvn package jboss:hard-deploy -->
+                         mvn package jboss-as:deploy -->
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>jboss-maven-plugin</artifactId>
-                        <version>1.4.1</version>
+                        <groupId>org.jboss.as.plugins</groupId>
+                        <artifactId>jboss-as-maven-plugin</artifactId>
+                        <version>7.0.2.Final</version>
                         <configuration>
-                            <jbossHome>${jboss.home}</jbossHome>
-                            <serverName>${jboss.domain}</serverName>
-                            <fileNames>
-                                <!-- JNDI DataSource that connects to in-memory HSQLDB to demonstrate JPA -->
-                                <fileName>src/main/resources-jbossas/default-ds.xml</fileName>
-                                <!-- DataSource needs to go before the application -->
-                                <fileName>${project.build.directory}/${project.build.finalName}.war</fileName>
-                            </fileNames>
+                            <filename>${project.build.finalName}.war</filename>
                         </configuration>
                     </plugin>
                 </plugins>
